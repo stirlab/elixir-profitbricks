@@ -1,7 +1,7 @@
 # Overview
 
 Dead simple [Elixir](http://elixir-lang.github.io) wrapper for the
-[Profitbricks API](https://api.profitbricks.com/cloudapi/v4).
+[Profitbricks API](https://devops.profitbricks.com/api/cloud/v4).
 
 ## Installation (for now)
 
@@ -27,7 +27,7 @@ library, and for now it simply wraps the Tesla GET/POST/etc methods
 directly.
 
 The path and JSON data parameters can be figured out via ProfitBricks's
-[API](https://api.profitbricks.com/cloudapi/v4).
+[API](https://devops.profitbricks.com/api/cloud/v4).
 
 ### Examples
 
