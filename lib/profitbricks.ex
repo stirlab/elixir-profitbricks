@@ -12,7 +12,7 @@ defmodule ProfitBricks do
   @password Application.get_env(:profitbricks, :password)
 
   plug Tesla.Middleware.BaseUrl, Application.get_env(:profitbricks, :api_endpoint, @api_endpoint_default)
-  plug Tesla.Middleware.Headers, make_auth_header
+  plug Tesla.Middleware.Headers, make_auth_header()
   plug Tesla.Middleware.JSON
   plug ForceEmptyBodyAndContentTypeForDelete
   if Application.get_env(:profitbricks, :debug_http) do
@@ -27,7 +27,7 @@ defmodule ProfitBricks do
   # data to declare an application/json data content type. So here, build a
   # custom, single arg POST function that skips the content type.
   def post(path) do
-    headers = Map.merge(make_auth_header, %{"Content-Type" => "application/x-www-form-urlencoded"})
+    headers = Map.merge(make_auth_header(), %{"Content-Type" => "application/x-www-form-urlencoded"})
     Tesla.post(@api_endpoint_default <> path, "", headers: headers)
   end
 
