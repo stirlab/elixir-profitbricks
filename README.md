@@ -1,7 +1,7 @@
 # Overview
 
 Dead simple [Elixir](http://elixir-lang.github.io) wrapper for the
-[Profitbricks API](https://devops.profitbricks.com/api/cloud/v4).
+[ProfitBricks API](https://devops.profitbricks.com/api/cloud/v4).
 
 ## Installation (for now)
 
