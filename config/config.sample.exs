@@ -30,6 +30,8 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 config :profitbricks, debug_http: false
+# Uncomment for deeper level HTTP debugging.
+#config :profitbricks, api_endpoint: "https://requestb.in"
 # Generate these at at https://my.profitbricks.com/dashboard
 # 'Manage users'.
 config :profitbricks,
