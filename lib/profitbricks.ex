@@ -11,6 +11,7 @@ defmodule ProfitBricks do
   @username Application.get_env(:profitbricks, :username)
   @password Application.get_env(:profitbricks, :password)
 
+  plug Tesla.Middleware.Tuples, rescue_errors: :all
   plug Tesla.Middleware.BaseUrl, Application.get_env(:profitbricks, :api_endpoint, @api_endpoint_default)
   plug Tesla.Middleware.Headers, make_auth_header()
   plug Tesla.Middleware.JSON
@@ -28,7 +29,11 @@ defmodule ProfitBricks do
   # custom, single arg POST function that skips the content type.
   def post(path) do
     headers = Map.merge(make_auth_header(), %{"Content-Type" => "application/x-www-form-urlencoded"})
-    Tesla.post(@api_endpoint_default <> path, "", headers: headers)
+    response = Tesla.post(@api_endpoint_default <> path, "", headers: headers)
+    {:ok, response}
+    rescue
+      error ->
+        {:error, error}
   end
 
 end

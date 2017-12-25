@@ -33,7 +33,7 @@ The path and JSON data parameters can be figured out via ProfitBricks's
 
 ```elixir
 # Get datacenters info.
-response = ProfitBricks.get("/datacenters")
+{:ok, response} = ProfitBricks.get("/datacenters")
 IO.puts response.status
 IO.inspect response.headers
 IO.inspect response.body
@@ -42,13 +42,13 @@ datacenter = Enum.at(response.body["items"], 0)
 datacenter_id = datacenter["id"]
 
 #Get servers in datacenter.
-response = ProfitBricks.get("/datacenters/#{datacenter_id}/servers")
+{:ok, response} = ProfitBricks.get("/datacenters/#{datacenter_id}/servers")
 # First server.
 server = Enum.at(response.body["items"], 0)
 server_id = server["id"]
 
 # Get server.
-response = ProfitBricks.get("/datacenters/#{datacenter_id}/servers/#{server_id}")
+{:ok, response} = ProfitBricks.get("/datacenters/#{datacenter_id}/servers/#{server_id}")
 cores = response.body["properties"]["cores"]
 
 # Update server.
@@ -58,11 +58,11 @@ data = %{
     ram: 8192,
   },
 }
-response = ProfitBricks.put("/datacenters/#{datacenter_id}/servers/#{server_id}", data)
+{:ok, response} = ProfitBricks.put("/datacenters/#{datacenter_id}/servers/#{server_id}", data)
 cores = response.body["properties"]["cores"]
 
 # Get images.
-response = ProfitBricks.get("/images")
+{:ok, response} = ProfitBricks.get("/images")
 Enum.each response.body["items"], fn image ->
   IO.inspect image
 end
@@ -71,7 +71,7 @@ image = Enum.at(response.body["items"], 0)
 image_id = image["id"]
 
 # Get snapshots.
-response = ProfitBricks.get("/snapshots")
+{:ok, response} = ProfitBricks.get("/snapshots")
 # First snapshot.
 snapshot = Enum.at(response.body["items"], 0)
 snapshot_id = snapshot["id"]
@@ -85,7 +85,7 @@ data = %{
     type: "HDD",
   }
 }
-response = ProfitBricks.post("/datacenters/#{datacenter_id}/volumes", data)
+{:ok, response} = ProfitBricks.post("/datacenters/#{datacenter_id}/volumes", data)
 volume_id = response.body["id"]
 
 # Create public LAN.
@@ -95,7 +95,7 @@ data = %{
     public: true,
   }
 }
-response = ProfitBricks.post("/datacenters/#{datacenter_id}/lans", data)
+{:ok, response} = ProfitBricks.post("/datacenters/#{datacenter_id}/lans", data)
 lan_id = response.body["id"]
 
 # Create server, attaching previously created volume/LAN.
@@ -123,22 +123,22 @@ data = %{
     },
   },
 }
-response = ProfitBricks.post("/datacenters/#{datacenter_id}/servers", data)
+{:ok, response} = ProfitBricks.post("/datacenters/#{datacenter_id}/servers", data)
 server_id = response.body["id"]
-response = ProfitBricks.get("/datacenters/#{datacenter_id}/servers/#{server_id}", query: [depth: 3])
+{:ok, response} = ProfitBricks.get("/datacenters/#{datacenter_id}/servers/#{server_id}", query: [depth: 3])
 Apex.ap(response.body)
 public_ip = Enum.at(Enum.at(response.body["entities"]["nics"]["items"], 0)["properties"]["ips"] , 0)
 server_state = response.body["metadata"]["state"]
 vm_state = response.body["properties"]["vmState"]
 
 # Stop server. Note, don't pass any data here.
-response = ProfitBricks.post("/datacenters/#{datacenter_id}/servers/#{server_id}/stop")
+{:ok, response} = ProfitBricks.post("/datacenters/#{datacenter_id}/servers/#{server_id}/stop")
 
 # Delete server.
-response = ProfitBricks.delete("/datacenters/#{datacenter_id}/servers/#{server_id}")
+{:ok, response} = ProfitBricks.delete("/datacenters/#{datacenter_id}/servers/#{server_id}")
 
 # Clean up created LAN and volume.
-response = ProfitBricks.delete("/datacenters/#{datacenter_id}/lans/#{lan_id}")
-response = ProfitBricks.delete("/datacenters/#{datacenter_id}/volumes/#{volume_id}")
+{:ok, response} = ProfitBricks.delete("/datacenters/#{datacenter_id}/lans/#{lan_id}")
+{:ok, response} = ProfitBricks.delete("/datacenters/#{datacenter_id}/volumes/#{volume_id}")
 
 ```
