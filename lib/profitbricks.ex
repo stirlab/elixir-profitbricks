@@ -8,8 +8,8 @@ defmodule ProfitBricks do
 
   use Tesla, only: [:head, :get, :post, :put, :patch, :delete]
 
-  @username Application.get_env(:profitbricks, :username)
-  @password Application.get_env(:profitbricks, :password)
+  @username Application.fetch_env!(:profitbricks, :username)
+  @password Application.fetch_env!(:profitbricks, :password)
 
   plug Tesla.Middleware.Tuples, rescue_errors: :all
   plug Tesla.Middleware.BaseUrl, Application.get_env(:profitbricks, :api_endpoint, @api_endpoint_default)
