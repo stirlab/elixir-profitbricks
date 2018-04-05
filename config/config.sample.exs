@@ -32,6 +32,13 @@ use Mix.Config
 config :profitbricks, debug_http: false
 # Uncomment for deeper level HTTP debugging.
 #config :profitbricks, api_endpoint: "https://requestb.in"
+
+# Redirect/retry options.
+#config :profitbricks, http_follow_redirects: true
+#config :profitbricks, http_retry_enabled: true
+#config :profitbricks, http_retry_delay: 1000
+#config :profitbricks, http_retry_max_retries: 5
+
 # Generate these at at https://my.profitbricks.com/dashboard
 # 'Manage users'.
 config :profitbricks,
