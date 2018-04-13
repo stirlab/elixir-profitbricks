@@ -9,7 +9,7 @@ First, add ProfitBricks to your `mix.exs` dependencies:
 
 ```elixir
 def deps do
-  [{:profitbricks, "~> 0.1"}]
+  [{:profitbricks_api_wrapper, "~> 0.1"}]
 end
 ```
 Then, update your dependencies:
