@@ -5,9 +5,11 @@ defmodule ProfitBricks.Mixfile do
     [
       app: :profitbricks,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.6",
       start_permanent: Mix.env == :prod,
-      deps: deps()
+      package: package(),
+      description: description(),
+      deps: deps(),
     ]
   end
 
@@ -18,10 +20,37 @@ defmodule ProfitBricks.Mixfile do
     ]
   end
 
+  defp package do
+    [
+      files: [
+        "lib",
+        "mix.exs",
+        "README*",
+        "LICENSE*",
+      ],
+      maintainers: [
+        "Chad Phillips",
+      ],
+      licenses: [
+        "MIT",
+      ],
+      links: %{
+        "GitHub" => "https://github.com/stirlab/elixir-profitbricks",
+        "Home" => "http://stirlab.net",
+      },
+    ]
+  end
+
+  defp description do
+    """
+    Dead simple Elixir wrapper for the ProfitBricks API.
+    """
+  end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tesla, "~> 0.9.0"},
+      {:tesla, "~> 0.10.0"},
       {:poison, "~> 3.1.0"},
       {:apex, "~>1.2.0"},
     ]
