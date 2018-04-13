@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :profitbricks, key: :value
+#     config :profitbricks_api_wrapper, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:profitbricks, :key)
+#     Application.get_env(:profitbricks_api_wrapper, :key)
 #
 # You can also configure a 3rd-party app:
 #
@@ -29,18 +29,18 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
-config :profitbricks, debug_http: false
+config :profitbricks_api_wrapper, debug_http: false
 # Uncomment for deeper level HTTP debugging.
-#config :profitbricks, api_endpoint: "https://requestb.in"
+#config :profitbricks_api_wrapper, api_endpoint: "https://requestb.in"
 
 # Redirect/retry options.
-#config :profitbricks, http_follow_redirects: true
-#config :profitbricks, http_retry_enabled: true
-#config :profitbricks, http_retry_delay: 1000
-#config :profitbricks, http_retry_max_retries: 5
+#config :profitbricks_api_wrapper, http_follow_redirects: true
+#config :profitbricks_api_wrapper, http_retry_enabled: true
+#config :profitbricks_api_wrapper, http_retry_delay: 1000
+#config :profitbricks_api_wrapper, http_retry_max_retries: 5
 
 # Generate these at at https://my.profitbricks.com/dashboard
 # 'Manage users'.
-config :profitbricks,
+config :profitbricks_api_wrapper,
   username: "",
   password: ""
