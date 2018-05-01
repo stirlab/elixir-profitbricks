@@ -7,34 +7,24 @@ defmodule ProfitBricks do
   use Tesla, only: [:head, :get, :post, :put, :patch, :delete]
 
   @api_endpoint_default "https://api.profitbricks.com/cloudapi/v4"
-  @api_endpoint Application.get_env(:profitbricks_api_wrapper, :api_endpoint, @api_endpoint_default)
-
-  @username Application.fetch_env!(:profitbricks_api_wrapper, :username)
-  @password Application.fetch_env!(:profitbricks_api_wrapper, :password)
-
-  @http_follow_redirects Application.get_env(:profitbricks_api_wrapper, :http_follow_redirects, true)
-  @http_retry_enabled Application.get_env(:profitbricks_api_wrapper, :http_retry_enabled, true)
-  @http_retry_delay Application.get_env(:profitbricks_api_wrapper, :http_retry_delay, 1000)
-  @http_retry_max_retries Application.get_env(:profitbricks_api_wrapper, :http_retry_max_retries, 5)
-  @debug_http Application.get_env(:profitbricks_api_wrapper, :debug_http, false)
 
   plug Tesla.Middleware.Tuples, rescue_errors: :all
-  plug Tesla.Middleware.BaseUrl, @api_endpoint
+  plug Tesla.Middleware.BaseUrl, Application.get_env(:profitbricks_api_wrapper, :api_endpoint, @api_endpoint_default)
   plug Tesla.Middleware.Headers, make_auth_header()
   plug Tesla.Middleware.JSON
   plug ForceEmptyBodyAndContentTypeForDelete
-  if @http_retry_enabled do
-    plug Tesla.Middleware.Retry, delay: @http_retry_delay, max_retries: @http_retry_max_retries
+  if Application.get_env(:profitbricks_api_wrapper, :http_retry_enabled, true) do
+    plug Tesla.Middleware.Retry, delay: Application.get_env(:profitbricks_api_wrapper, :http_retry_delay, 1000), max_retries: Application.get_env(:profitbricks_api_wrapper, :http_retry_max_retries, 5)
   end
-  if @http_follow_redirects do
+  if Application.get_env(:profitbricks_api_wrapper, :http_follow_redirects, true) do
     plug Tesla.Middleware.FollowRedirects
   end
-  if @debug_http do
+  if Application.get_env(:profitbricks_api_wrapper, :debug_http, false) do
     plug Tesla.Middleware.DebugLogger
   end
 
   def make_auth_header() do
-    %{"Authorization" => "Basic " <> Base.encode64(@username <> ":" <> @password)}
+    %{"Authorization" => "Basic " <> Base.encode64(Application.fetch_env!(:profitbricks_api_wrapper, :username) <> ":" <> Application.fetch_env!(:profitbricks_api_wrapper, :password))}
   end
 
   # ProfitBricks API doesn't allow post requests that are supposed to have no
@@ -42,7 +32,7 @@ defmodule ProfitBricks do
   # custom, single arg POST function that skips the content type.
   def post(path) do
     headers = Map.merge(make_auth_header(), %{"Content-Type" => "application/x-www-form-urlencoded"})
-    response = Tesla.post(@api_endpoint_default <> path, "", headers: headers)
+    response = Tesla.post(Application.get_env(:profitbricks_api_wrapper, :api_endpoint, @api_endpoint_default) <> path, "", headers: headers)
     {:ok, response}
     rescue
       error ->
