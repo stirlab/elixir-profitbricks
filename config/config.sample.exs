@@ -29,7 +29,9 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
-config :profitbricks_api_wrapper, debug_http: false
+# See https://hexdocs.pm/tesla/Tesla.Middleware.Logger.html
+config :profitbricks_api_wrapper, enable_tesla_log: false
+
 # Uncomment for deeper level HTTP debugging.
 #config :profitbricks_api_wrapper, api_endpoint: "https://requestb.in"
 
