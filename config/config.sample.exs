@@ -33,7 +33,7 @@ use Mix.Config
 config :profitbricks_api_wrapper, enable_tesla_log: false
 
 # Uncomment for deeper level HTTP debugging.
-#config :profitbricks_api_wrapper, api_endpoint: "https://requestb.in"
+#config :profitbricks_api_wrapper, api_endpoint: "https://requestbin.fullcontact.com"
 
 # Redirect/retry options.
 #config :profitbricks_api_wrapper, http_follow_redirects: true
